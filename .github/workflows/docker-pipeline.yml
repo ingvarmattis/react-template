@@ -8,7 +8,7 @@ on:
     branches: [ main, master ]
 
 env:
-  REGISTRY: us-east4-docker.pkg.dev
+  REGISTRY: us-west2-docker.pkg.dev
   PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
   REPOSITORY: containers
 
