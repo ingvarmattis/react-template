@@ -17,6 +17,6 @@ Same Docker pipeline as `moving/frontend`: [`.github/workflows/docker-pipeline.y
 
 - Triggers: push to `main` / `master`, tags `v*`, and pull requests to `main` / `master` (the image is **not** pushed on PRs — `if: github.event_name != 'pull_request'`).
 - Pushes the image to **Google Artifact Registry** (`us-east4-docker.pkg.dev`), image path: `{PROJECT_ID}/containers/frontend`.
-- Requires GitHub **environment** `moving-frontend`, repository **variable** `GCP_PROJECT_ID`, and **secrets** `GCP_REGISTRY_SA_KEY`, `VITE_API_TOKEN` (the workflow passes the token as a Docker build-arg; same pattern as the moving app).
+- Requires GitHub **environment** `environments`, repository **variable** `GCP_PROJECT_ID`, and **secrets** `GCP_REGISTRY_SA_KEY`, `VITE_API_TOKEN` (the workflow passes the token as a Docker build-arg; same pattern as the moving app).
 
 `Dockerfile` and `nginx.conf` match the moving frontend layout so `docker build` in CI matches that project.
