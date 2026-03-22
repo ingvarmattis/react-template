@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:25-alpine AS builder
 
 WORKDIR /app
 
@@ -7,19 +7,18 @@ RUN npm ci --prefer-offline --no-audit --no-fund
 
 COPY . .
 
-ARG VITE_API_TOKEN=
-ARG VITE_API_BASE_URL=/api
-
-ENV VITE_API_TOKEN=$VITE_API_TOKEN
-ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
-
 RUN npm run build
 
-FROM nginx:alpine AS runner
+FROM node:25-alpine AS runner
 
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
+WORKDIR /app
 
-EXPOSE 80 443
+ENV NODE_ENV=production
 
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm install -g serve@14.2.6
+
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+
+CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:3000"]
